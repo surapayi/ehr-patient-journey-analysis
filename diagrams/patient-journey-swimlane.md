@@ -1,9 +1,7 @@
 # Patient Journey ↔ EHR Workflow (Swimlane)
 
 Front-end scheduling through back-end billing — human process steps mapped against
-what the EHR system does at each stage. See the interactive, color-coded version at
-[`diagrams/patient_journey_swimlane.html`](./patient_journey_swimlane.html) (renders
-fully once GitHub Pages is enabled).
+what the EHR system does at each stage.
 
 | Lane | Scheduling | Patient Access | Registration | Check-in | Encounter | Orders | Results | Checkout | Billing |
 |---|---|---|---|---|---|---|---|---|---|
