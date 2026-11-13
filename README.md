@@ -22,7 +22,7 @@ A new patient has a scheduled appointment with an orthopedic surgeon for chronic
 - Drug prior authorization
 - Denials and appeals
 
-**One optional branch:** if the surgeon orders an MRI instead of, or after, the X-ray, the order may need prior authorization. I show this as a single branch that links to my [prior authorization project](ADD-LINK-HERE) and do not map it again here.
+**One optional branch:** if the surgeon orders an MRI instead of, or after, the X-ray, the order may need prior authorization. I show this as a single branch that links to my [prior authorization project]([ADD-LINK-HERE](https://github.com/surapayi/prior-authorization-epa-analysis)) and do not map it again here.
 
 ## Why this scenario
 
