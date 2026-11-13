@@ -1,39 +1,63 @@
-# EHR Patient Journey & Operations Analysis
+# Outpatient Orthopedic Consult for Knee Pain: EHR Workflow and System Handoffs
 
-## Overview
-This project documents the end-to-end patient journey — from scheduling through billing —
-and maps each stage to the corresponding EHR system workflow. It's the foundation for a
-second project analyzing real-world healthcare operations data (readmissions/billing),
-built to demonstrate both operational understanding and analytical skill for EHR
-Analyst / Business Analyst roles.
+This project follows one patient through one outpatient visit and shows how the EHR and connected systems pass information along the way. I mapped who does what, which system sends what to which, and what data is created at each step.
 
-## Contents
-- `diagrams/patient_journey_swimlane.html` — Swimlane diagram showing each process stage
-  (Scheduling, Patient Access, Registration, Check-in, Encounter, Orders, Results,
-  Checkout, Billing) mapped against the actors involved (Patient, Front Desk, Clinical
-  Team, Provider, Ancillary, Billing/HIM) and what the EHR system does at each step.
-- `docs/data-kpi-map.md` — Data captured and KPIs tracked at each stage of the journey.
-- `docs/scope-and-rationale.md` — Why the analysis (project 2) is anchored on
-  readmissions/billing data.
-- `docs/glossary.md` — Key healthcare/EHR terms used throughout (CPOE, MPI, AVS, HCAHPS, etc.)
+## The scenario
 
-## Why This Project
-As an AI Business Analyst moving into EHR-focused roles, I wanted to demonstrate that I
-understand the operational and clinical workflow an EHR supports — not just the data that
-comes out of it. This project walks through that operational understanding first, then
-sets up Project 2, where I analyze real public healthcare data (CMS readmissions data)
-to surface a specific, actionable recommendation.
+A new patient has a scheduled appointment with an orthopedic surgeon for chronic knee pain. At the visit, the surgeon orders an X-ray, which is done in-house, and prescribes an anti-inflammatory medication that is sent to an outside pharmacy.
 
-## Project 2 (In Progress)
-The next phase of this work analyzes CMS Hospital Readmissions Reduction Program (HRRP)
-data, combined with HCAHPS patient experience scores, to test whether hospitals with
-stronger discharge-communication scores show lower excess-readmission ratios — tying the
-"Checkout" stage of the patient journey to a measurable financial outcome.
+## Scope
 
-## How to View
-Open the `.html` files directly in any browser, or visit the live GitHub Pages site: 
-`https://yourusername.github.io/ehr-patient-journey-analysis/`
+**In scope**
+- Booking the appointment and checking insurance eligibility before the visit
+- Check-in, when the scheduled appointment becomes an arrived encounter
+- Rooming and the surgeon's exam
+- The X-ray order and result
+- E-prescribing to an external pharmacy
+- Checkout, coding, and claim submission
 
-## Author
-Surapa Kongpanunpol Yi
-https://www.linkedin.com/in/surapa-yi-b5423416a/ · surapa.kongpanunpol@gmail.com
+**Out of scope**
+- Surgery and inpatient care
+- Physical therapy referral
+- Drug prior authorization
+- Denials and appeals
+
+**One optional branch:** if the surgeon orders an MRI instead of, or after, the X-ray, the order may need prior authorization. I show this as a single branch that links to my [prior authorization project](ADD-LINK-HERE) and do not map it again here.
+
+## Why this scenario
+
+I started with a broad map of the whole patient journey (see `00-context`), and it was too wide to go deep on. A knee pain consult is a standard, easy-to-follow visit that still touches the main parts of an ambulatory EHR: scheduling, eligibility, check-in, orders, results, e-prescribing, and billing. So I narrowed to this one visit.
+
+## Key system handoffs
+
+| Handoff | What happens | Standard |
+|---|---|---|
+| Appointment booked | Scheduling system creates the appointment | HL7 SIU |
+| Eligibility check | Practice asks the payer if coverage is active | X12 270/271 |
+| Check-in | Scheduled appointment becomes an arrived encounter | HL7 ADT-A04 (varies by site) |
+| X-ray order and result | Order goes to imaging, result returns to the chart | HL7 order and result messages |
+| E-prescription | Medication order goes to an outside pharmacy | NCPDP SCRIPT |
+| Claim | Charges become a claim sent to the payer | X12 837P |
+
+The full handoff table has more detail (see below).
+
+## Repo structure
+
+> File names are placeholders and may change.
+
+```
+.
+├── README.md                  <- you are here
+├── 00-context/                <- my first, broader patient journey map
+│   ├── README.md
+│   ├── swimlane-patient-journey.png
+│   └── data-kpi-map.md
+├── 01-handoff-table.md        <- every system handoff: trigger, sender, receiver, standard, data
+├── 02-swimlane/               <- swimlane diagram of the knee visit
+├── 03-data-model/             <- simple ERD built from the handoff table
+└── glossary.md                <- terms and acronyms
+```
+
+## A note on sources
+
+I have not worked in a clinic. This is a reference workflow built from public sources, course material, and healthcare IT standards. A real clinic's workflow will differ, and the message types shown here (such as ADT-A04) are common choices, not the only ones.
