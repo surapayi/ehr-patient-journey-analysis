@@ -22,7 +22,7 @@ A new patient has a scheduled appointment with an orthopedic surgeon for chronic
 - Drug prior authorization
 - Denials and appeals
 
-**One optional branch:** if the surgeon orders an MRI instead of, or after, the X-ray, the order may need prior authorization. I show this as a single branch that links to my [prior authorization project]([ADD-LINK-HERE](https://github.com/surapayi/prior-authorization-epa-analysis)) and do not map it again here.
+**One optional branch:** if the surgeon orders an MRI instead of, or after, the X-ray, the order may need prior authorization. I show this as a single branch that links to my [prior authorization project](ADD-LINK-HERE) and do not map it again here.
 
 ## Why this scenario
 
@@ -40,6 +40,18 @@ I started with a broad map of the whole patient journey (see `00-context`), and 
 | Claim | Charges become a claim sent to the payer | X12 837P |
 
 The full handoff table has more detail (see below).
+
+## What are these standards?
+
+Different systems need a shared format to exchange data. Inside one EHR, a step like check-in just updates the system's own database. When data has to go to another system or organization, it is sent in an agreed format:
+
+- **HL7 v2:** an older, very common message format between hospital and clinic systems.
+- **X12:** the US standard for insurance transactions such as eligibility checks and claims.
+- **NCPDP SCRIPT:** the standard for prescriptions sent to pharmacies.
+- **DICOM:** the standard for medical images.
+- **FHIR:** a newer, API-style standard. Many of the items above have a FHIR counterpart, but the older standards are still widely used and in some cases required by regulation.
+
+A middle layer, such as an interface engine, a clearinghouse, or an e-prescribing network, usually carries and translates these messages. The core exchanges with outside organizations in this visit are three: eligibility, the prescription, and the claim.
 
 ## Repo structure
 
