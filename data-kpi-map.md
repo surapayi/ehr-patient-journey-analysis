@@ -1,10 +1,13 @@
 # Data & KPI Map — Patient Journey Stages
 
-This document maps each of the 9 patient journey stages to (1) the data an EHR
-typically captures there and the KPIs built on top of it, and (2) the common
-operational issues and improvements at that stage, along with whether public data
-exists to analyze it. This is the bridge between the [patient journey swimlane
-diagram](../diagrams/patient_journey_swimlane.html) and Project 2's data analysis.
+This document maps each of the 9 patient journey stages to the data an EHR
+typically captures there, the KPIs built on top of it, and common operational
+issues and improvements. It is background for the main project in this repo, the
+orthopedic knee pain consult, and a reference for what data exists at each stage
+of the [patient journey swimlane](./swimlane-patient-journey.png).
+
+I have not worked in a clinic. This is a reference built from public sources,
+course material, and healthcare IT standards. Real clinics will differ.
 
 ---
 
@@ -24,36 +27,25 @@ diagram](../diagrams/patient_journey_swimlane.html) and Project 2's data analysi
 
 ---
 
-## 2. Issues, Improvements & Data Analysis Feasibility
+## 2. Common Issues & Improvements
 
-| # | Stage | Common Issues | Common Improvements | Data Analysis Feasibility (Public Data) |
-|---|-------|---------------|----------------------|-------------------------------------------|
-| 1 | Scheduling | High no-show rates, double-booking, mismatched visit length | Online self-scheduling, automated reminders, no-show prediction | ✅ **Strong** — Kaggle "Medical Appointment No Shows" dataset (patient-level) |
-| 2 | Patient Access | Incomplete insurance capture, missed prior auth | Real-time eligibility checks, pre-visit financial counseling | ❌ Weak — internal EHR/payer data, not public |
-| 3 | Registration | Duplicate patient records, manual re-entry, long wait times | Better MPI matching, single sign-on across systems | ❌ Weak — internal EHR data only |
-| 4 | Check-in | Inconsistent copay collection, peak-hour bottlenecks | Self-service kiosks, point-of-service payment prompts | 🟡 Moderate — CMS Care Compare has hospital-level wait-time measures, not patient-level |
-| 5 | Encounter | Documentation burden, alert fatigue | AI scribe tools, structured templates, tuned CDS rules | ❌ Weak — internal EHR data only |
-| 6 | Orders | Duplicate/missed orders, transmission delays | Order sets, duplicate-order alerts, interface monitoring | ❌ Weak — internal EHR data only |
-| 7 | Results | Delayed review ("inbox overload"), slow critical escalation | Automated critical-value escalation, results dashboards | ❌ Weak — internal EHR data only |
-| 8 | Checkout | No follow-up scheduled, unclear instructions, missed referrals | Automated follow-up triggers, standardized AVS, referral tracking | ⭐ **Selected — Moderate** — HCAHPS "discharge information"/"care transition" scores (hospital-level) |
-| 9 | Billing | Coding errors, claim denials, slow days-in-A/R | AI-assisted coding, denial pattern analysis, charge reconciliation | ⭐ **Selected — Strong** — CMS Hospital Readmissions Reduction Program (HRRP) data + DE-SynPUF claims (hospital-level / synthetic patient-level) |
+| # | Stage | Common Issues | Common Improvements |
+|---|-------|---------------|----------------------|
+| 1 | Scheduling | High no-show rates, double-booking, mismatched visit length | Online self-scheduling, automated reminders, no-show prediction |
+| 2 | Patient Access | Incomplete insurance capture, missed prior auth | Real-time eligibility checks, pre-visit financial counseling |
+| 3 | Registration | Duplicate patient records, manual re-entry, long wait times | Better MPI matching, single sign-on across systems |
+| 4 | Check-in | Inconsistent copay collection, peak-hour bottlenecks | Self-service kiosks, point-of-service payment prompts |
+| 5 | Encounter | Documentation burden, alert fatigue | AI scribe tools, structured templates, tuned CDS rules |
+| 6 | Orders | Duplicate/missed orders, transmission delays | Order sets, duplicate-order alerts, interface monitoring |
+| 7 | Results | Delayed review ("inbox overload"), slow critical escalation | Automated critical-value escalation, results dashboards |
+| 8 | Checkout | No follow-up scheduled, unclear instructions, missed referrals | Automated follow-up triggers, standardized AVS, referral tracking |
+| 9 | Billing | Coding errors, claim denials, slow days-in-A/R | AI-assisted coding, denial pattern analysis, charge reconciliation |
 
 ---
 
-## 3. Selection Rationale (Summary)
+## 3. How this connects to the main project
 
-Of the 9 stages, **Checkout and Billing** were selected as the anchor for Project 2:
-
-- Both have **credible, freely available public data** (CMS HRRP, HCAHPS, Hospital
-  General Information) with no data-use agreement required.
-- They sit at the point where an **operational breakdown becomes a measurable
-  financial outcome** — excess readmissions trigger real Medicare reimbursement
-  penalties — which makes the analysis relevant to both clinical operations and
-  hospital finance audiences.
-- The two stages can be **joined by hospital ID (CCN)**, allowing a genuine analytical
-  question: *do hospitals with stronger discharge-communication scores (HCAHPS) show
-  lower excess-readmission ratios?*
-
-Full detail on scope, assumptions, and data limitations (e.g., hospital-level vs.
-patient-level granularity) is documented separately in
-[`scope-and-rationale.md`](./scope-and-rationale.md).
+The knee consult follows one patient through stages 1 to 9 for a single visit.
+The main project picks a few measures from this map (for example, eligibility
+verified before the visit, check-in to roomed time, and X-ray order to result
+time) and shows where the data is created and handed off.
