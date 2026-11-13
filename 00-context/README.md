@@ -12,7 +12,6 @@ patient access → registration → scheduling → check-in → encounter → or
 
 - **Swimlane matrix:** maps the full patient journey to the EHR workflow, by role. [View the matrix](swimlane-patient-journey.md)
 - **Data and KPI map:** shows which data is created at each step and which KPIs it could support. [View the table](data-kpi-map.md)
-- **Scope and rationale:** explains why I chose this approach. [View the scope](scope-and-rationale.md)
 
 ## Why it's here
 
