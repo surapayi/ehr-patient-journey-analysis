@@ -24,20 +24,22 @@ A new patient has a scheduled appointment with an orthopedic surgeon for chronic
 
 **One optional branch:** if the surgeon orders an MRI instead of, or after, the X-ray, the order may need prior authorization. I show this as a single branch that links to my [prior authorization project](ADD-LINK-HERE) and do not map it again here.
 
+**Assumed setup:** one EHR with built-in practice management (scheduling, registration, check-in, charges, claims), plus a separate imaging system for the X-ray, connected to the EHR by an interface. Outside the clinic are a clearinghouse, the payer, an e-prescribing network, and the pharmacy. Other setups are common, and they would change which handoffs are messages and which are inside the EHR.
+
 ## Why this scenario
 
 I started with a broad map of the whole patient journey (see `00-context`), and it was too wide to go deep on. A knee pain consult is a standard, easy-to-follow visit that still touches the main parts of an ambulatory EHR: scheduling, eligibility, check-in, orders, results, e-prescribing, and billing. So I narrowed to this one visit.
 
 ## Key system handoffs
 
-| Handoff | What happens | Standard |
-|---|---|---|
-| Appointment booked | Scheduling system creates the appointment | HL7 SIU |
-| Eligibility check | Practice asks the payer if coverage is active | X12 270/271 |
-| Check-in | Scheduled appointment becomes an arrived encounter | HL7 ADT-A04 (varies by site) |
-| X-ray order and result | Order goes to imaging, result returns to the chart | HL7 order and result messages |
-| E-prescription | Medication order goes to an outside pharmacy | NCPDP SCRIPT |
-| Claim | Charges become a claim sent to the payer | X12 837P |
+| Handoff | What happens | Standard | Where |
+|---|---|---|---|
+| Appointment booked | Scheduling creates the appointment | None needed in one EHR | Inside the EHR |
+| Eligibility check | Practice asks the payer if coverage is active | X12 270/271 | Outside the organization |
+| Check-in | Scheduled appointment becomes an arrived encounter; imaging system is told | HL7 ADT-A04 (varies by site) | Between systems in the clinic |
+| X-ray order, images, and result | Order goes to imaging, images are stored, result returns to the chart | HL7 order and result messages, DICOM | Between systems in the clinic |
+| E-prescription | Medication order goes to an outside pharmacy | NCPDP SCRIPT | Outside the organization |
+| Claim | Charges become a claim sent to the payer | X12 837P | Outside the organization |
 
 The full handoff table has more detail (see below).
 
